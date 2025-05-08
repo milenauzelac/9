@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Buchstabenstrom dynamisch</title>
+  <style>
+    body {
+      background-color: white;
+      color: black;
+      font-family: "Suisse BP Int'l", Helvetica, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #wort {
+      font-size: 5em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<div id="wort">START</div>
+
+<script>
+const buchstaben = ['A', 'B', 'C', 'I', 'N', 'K', 'O', 'S', 'T'];
+
+const realeWoerter = [
+  "AKTION", "AKT", "BANK", "BIOTIN", "BISS", "BOOT", "CANVAS", "CASANOVA",
+  "CASINO", "IKON", "INSTINKT", "KANON", "KINO", "KIOSK", "KITA", "KNAST",
+  "KONTAKT", "KOST", "NANO", "NATION", "NIKOTIN", "OKTAV", "SOS", "STAB",
+  "STATION", "STOCK", "TABAK", "TAKTIK", "TAT", "TOAST", "VATIKAN"
+];
+
+const wirrKombinationen = [
+  "OT", "KNC", "ASOK", "BIKTO", "STNKIA", "COSABNT", "KINOSTAB", "BATSKONIC",
+  "IKTOSNABKC", "NSTABOKICNT"
+];
+
+function generiereName() {
+  const minLen = 4;
+  const maxLen = 8;
+  const len = Math.floor(Math.random() * (maxLen - minLen + 1)) + minLen;
+  let name = "";
+  for (let i = 0; i < len; i++) {
+    name += buchstaben[Math.floor(Math.random() * buchstaben.length)];
+  }
+  return name;
+}
+
+function waehleAusListe(liste) {
+  return liste[Math.floor(Math.random() * liste.length)];
+}
+
+function neuesElement() {
+  const zufall = Math.random();
+  let wort = "";
+
+  if (zufall < 0.20) {
+    wort = waehleAusListe(realeWoerter);         // 20% echte Wörter
+  } else if (zufall < 0.85) {
+    wort = generiereName();                      // 65% dynamisch generierte Namen
+  } else {
+    wort = waehleAusListe(wirrKombinationen);    // 15% wirre Kombinationen
+  }
+
+  document.getElementById("wort").textContent = wort.toUpperCase();
+}
+
+neuesElement();
+setInterval(neuesElement, 1000);
+</script>
+
+</body>
+</html>
